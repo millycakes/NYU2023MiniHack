@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Color styles */
+  --white: rgba(255, 255, 255, 1);
+  --black: rgba(34, 34, 34, 1);
+  --accent: rgba(234, 53, 43, 1);
+  --action: rgba(52, 117, 243, 1);
+  --gray--100: rgba(238, 238, 238, 1);
+  --gray--200: rgba(212, 212, 212, 1);
+  --gray--300: rgba(144, 144, 144, 1);
+  --gray--400: rgba(97, 97, 97, 1);
+
+  /* Text-size styles */
+  /* base size: body-large-regular (16px) */
+  --logo: 1.5rem;
+  --h1: 1.5rem;
+  --h2: 1.12rem;
+  --body-large: 1rem;
+  --body: 0.88rem;
+
+  /* Effect styles */
+  --shadow:  0px 2px 8px rgba(0, 0, 0, 0.12);
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -14,4 +38,56 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+p{
+  font-size: var(--body);
+}
+
+.dot{
+  width: 4px;
+  height: 4px;
+  background-color: var(--gray--200);
+  border-radius: 100%;
+}
+
+.card{
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 12px 0;
+  align-items: center;
+  width: 400px;
+}
+.card__left{
+  flex-grow: 2;
+}
+
+.card__title{
+  font-size: var(--body-large-bold);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.card__metadata{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+
+}
+
+.card__image{
+  width: 100px;
+  height: 100px;
+  background-color: var(--gray--200);
+  border-radius: 8px;
+}
+
+.card__date{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
 }
