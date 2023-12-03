@@ -62,7 +62,9 @@ const openPageAndScroll = async (link) => {
 }
 
 app.get('/', async (req, res) => {
-    const data = await openPageAndScroll("https://www.groupon.com/search?query=food");
+    // query sent into body
+    // const data = await openPageAndScroll("https://www.groupon.com/search?query=food");
+    const data = await openPageAndScroll(`https://www.groupon.com/search?query=${req.query.query}`);
     // send json back to frontend
     console.log("google data in ex: ", data);
     res.json(data);
