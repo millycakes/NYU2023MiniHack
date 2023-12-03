@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact from 'google-map-react';
 
+import Marker from "../../components/global/Marker";
+
 import Header from "../../components/global/Header";
 import Sidebar from "../../components/global/Sidebar";
+
+// const Marker = ({text}) => <div>{text}</div>;
 
 export default function Home() {
   const [pos, setPos] = useState({ latitude: 0, longitude: 0 });
@@ -34,6 +38,9 @@ export default function Home() {
         defaultCenter={{ lat: pos.latitude, lng: pos.longitude }}
         defaultZoom={16}
       >
+      <Marker lat={pos.latitude} lng= {pos.longitude} text="McDonalds"/>
+      <Marker lat={40.72962729885485} lng= {-73.99936141218122} text="KFC"/>
+      <Marker lat={40.72944704674394} lng= {-73.9983276230342} text="Spicy Moon"/>
       </GoogleMapReact>
     </div>
   );
