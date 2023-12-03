@@ -42,8 +42,13 @@ export default function App() {
         },
       }}
     >
+<<<<<<< HEAD
         <Routing />
         <Toaster />
+=======
+      <Routing />
+      <Toaster />
+>>>>>>> 3b57d42d1eb7e5b7eeb9b64894644e84a0e6272e
     </AuthContext.Provider>
   );
 }
