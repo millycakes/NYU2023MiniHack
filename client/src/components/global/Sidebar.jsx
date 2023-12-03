@@ -1,8 +1,7 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../App';
-import { animated, useSpring } from 'react-spring';
-import { Search, Close } from '@mui/icons-material'
+import { Search, Close, Bookmark, Restaurant, Celebration, Museum } from '@mui/icons-material'
 
 import Card from './Card';
 import '../../assets/css/Sidebar.css';
@@ -12,22 +11,12 @@ export default function Sidebar() {
     const [cards, setCards] = useState([]);
     const location = useLocation(); // Get the current route location
     const navigate = useNavigate();
+    const [category, setCategory] = useState('');
 
     const baseUrl = process.env.NODE_ENV === 'production' ? 'https://deals-finder.herokuapp.com' : 'http://localhost:3001';
 
-    // const props = useSpring({
-    //     from: { 
-    //         opacity: 0, 
-    //         left: '-27vw',
-    //     },
-    //     to: { 
-    //         opacity: 1, 
-    //         left: '0vw',
-    //     },
-    // })
-
     async function getRestaurants() {
-        const res = await fetch(`${baseUrl}?query=${searchquery}`);
+        const res = await fetch(`${baseUrl}?query=${searchquery}` + ' ' + category);
         const data = await res.json();
         // console.log("all data:", data);
         // exclude where title's empty
@@ -36,29 +25,45 @@ export default function Sidebar() {
         setCards(data.filter((val) => val.title !== null));
     }
 
+    useEffect(() => {
+        getRestaurants()
+    }, [category]);
+    
+
     return (
-        <div className="Frame20095 w-full sidebar" style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex'}}>
-            <div className='search flex flex-row w-full' id='searchbar'>
-                <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="Search mr-[35%]" />        
+        <div className="sidebar">
+            <div className='search'>
+                <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="search__input" />        
                 <button onClick={() => getRestaurants()} id="searchbutton">
                     <Search />
                 </button>
                 <Close />
             </div>
-            <div className='sidebar__results flex flex-row justify-between w-full'>
+            <div className='sidebar__results'>
                 <h2>Over 200 Results</h2>
                 <button>Suggest Deals</button>
             </div>
-            <div id='categories'>
-                <button>Saved</button>
-                <button>FREE</button>
-                <button>Food</button>
-                <button>Events</button>
-                <button>Museums</button>
+            <div className='categories'>
+                <div className='chip'>
+                    <Bookmark />
+                    <p>Saved</p>
+                </div>
+                <div className='chip' onClick={() => setCategory("Food")}>
+                    <Restaurant />
+                    <p>Food</p>
+                </div>
+                <div className='chip' onClick={() => setCategory("Events")}>
+                    <Celebration />
+                    <p>Event</p>
+                </div>
+                <div className='chip' onClick={() => setCategory("Museum")}>
+                    <Museum />
+                    <p>Museum</p>
+                </div>
             </div>
             <div>
                 {cards.length > 0 &&
-                    <div className='flex flex-col gap-x-2 items-center justify-center'>
+                    <div>
                         {cards.map((val, index) => (
                             <Card data={val} key={index} />
                         ))}
