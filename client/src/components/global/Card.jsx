@@ -8,9 +8,6 @@ function Card({ data }) {
         <div className='card__left'>
             <h3 className='card__title'>GET {data.percentoff}</h3>
             <div className='card__metadata'>
-                <p>Company Name</p>
-                {/* <div className='dot'></div>
-                <p>Category</p> */}
                 <p>{data.title}</p>
             </div>
             <div className='card__date'>

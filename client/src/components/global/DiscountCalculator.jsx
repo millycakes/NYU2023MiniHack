@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
-import { calculate, toastError, toastPromise } from '../../GlobalFunctions';
+import { calculate, toastPromise } from '../../GlobalFunctions';
 import '../../assets/css/popup.css'
+import 'reactjs-popup/dist/index.css';
 
 export default function DiscountCalculator({ open, setOpen }) {
   const closeModal = () => setOpen(false);
@@ -12,14 +13,18 @@ export default function DiscountCalculator({ open, setOpen }) {
 
   return (
     <div>
-      <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+      <Popup open={open} closeOnDocumentClick onClose={closeModal} className='flex flex-col items-start justify-start'>
         <h1>Discount Calculator</h1>
         {/* labels for Original Price and Discount */}
-        <label for='originalPrice'>Original Price</label>
-        <input type='number' id='originalPrice' placeholder='Original Price' value={originalprice} onChange={e => setOriginalPrice(e.target.value)}></input>
-        <label for='discount'>Discount</label>
-        <input type='number' id='discount' placeholder='Discount' value={discount} onChange={e => setDiscount(e.target.value)}></input>
-        <button onClick={() =>
+        <div className='flex flex-col'>
+            <label for='originalPrice'>Original Price</label>
+            <input type='number' id='originalPrice' placeholder='Original Price' value={originalprice} onChange={e => setOriginalPrice(e.target.value)}></input>
+        </div>
+        <div className='flex flex-col'>
+            <label for='discount'>Discount</label>
+            <input type='number' id='discount' placeholder='Discount' value={discount} onChange={e => setDiscount(e.target.value)}></input>
+        </div>
+        <button className=' mt-4' onClick={() =>
             toastPromise(new Promise(async (resolve, reject) => {
                 if (originalprice === 0 || discount === 0) {
                     reject('Please enter a valid price and discount');

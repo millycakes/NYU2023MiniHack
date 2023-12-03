@@ -39,7 +39,7 @@ export default function Sidebar() {
     return (
         <div className="Frame20095 w-full sidebar" style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex'}}>
             <div className='search flex flex-row w-full' id='searchbar'>
-                <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="Search" />        
+                <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="Search mr-[35%]" />        
                 <button onClick={() => getRestaurants()} id="searchbutton">
                     <Search />
                 </button>
