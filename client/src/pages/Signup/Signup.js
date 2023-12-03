@@ -42,4 +42,8 @@ export default function Signup () {
             console.log("Error with", error.code, ":", error.message);
         });
     }
+
+    return (
+        <h1>Test</h1>
+    )
 }
