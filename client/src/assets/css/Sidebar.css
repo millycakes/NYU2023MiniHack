@@ -1,0 +1,16 @@
+#searchbar {
+    border: 1px solid #D4D4D4;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+#suggestbutton {
+    border-radius: 0.5rem;
+    background-color: #3475F3;
+    padding: 0.5rem;
+    color: white;
+}
+#categories button {
+    border-radius: 0.25rem;
+    border: 1px solid #EEE;
+    padding: 0.5rem 0.75rem;
+}

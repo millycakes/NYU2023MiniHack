@@ -18,6 +18,10 @@ export default function Routing() {
 
   const {user, setUser} = useContext(AuthContext);
 
+  useEffect(() => {
+    console.log("user", user);
+  }, [user])
+
   onAuthStateChanged(auth, (user) => {
     setUser(user);
   });
@@ -40,7 +44,7 @@ export default function Routing() {
 
   return (
     <BrowserRouter>
-      {user && <Sidebar sidetabvisible={sidetabvisible} />}
+      {user && <Sidebar />}
       <animated.div className={`${user && 'relative'} w-full pt-4`} style={props}>
         {user ?
             <Routes>
