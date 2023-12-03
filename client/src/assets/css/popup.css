@@ -1,0 +1,9 @@
+.popup-content {
+    width: 45%;
+    border-radius: 12px;
+    padding-block: 1rem;
+}
+.popup-content :not(label) {
+    padding: 0.25rem;
+    border-radius: 8px;
+}
