@@ -34,37 +34,11 @@ export default function Sidebar() {
     }
 
     return (
-        <animated.div className="Sidebar w-[274px] relative h-screen">
-            <div className="Rectangle2" style={{width: 268, opacity: 0.60, background: 'white'}} />
-            <div className="Frame20098" style={{width: 232, left: 21, top: 90, position: 'absolute', flexDirection: 'column',
-                justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'inline-flex', paddingBottom: '20px'
-            }}>
-                <div className="Frame20095 w-full" style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex'}}>
-                    <div id='searchbar' className='flex flex-row'>
-                        {/* <Search /> */}
-                        <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="Search" />
-                        {/* <XIcon /> */}
-                        <button onClick={() => getRestaurants()}>
-                            <Search />
-                        </button>
-                    </div>
-                    <div className='flex justify-between items-center w-full'>
-                        <p className='font-bold text-lg'>Over 100 deals</p>
-                        <button id='suggestbutton' className='text-sm font-bold'>Suggest Deals</button>
-                    </div>
-                    <div id='categories' className='flex items-center justify-evenly w-full'>
-                        <button>Saved</button>
-                        <button>FREE</button>
-                        <button>Food</button>
-                        <button>Events</button>
-                        <button>Museums</button>
-                    </div>
-                    <div className='flex flex-col gap-x-2 items-center justify-center'>
-                        {cards.map((val, index) => (
-                            <Card data={val} key={index} />
-                        ))}
-                    </div>
-                </div>
+        <div className='sidebar'>
+            <div className='search'>
+                <input className='search__input' type='text' placeholder='Search'/>
+                <Search />
+                <Close />
             </div>
             <div className='sidebar__results'>
                 <h2>Over 200 Results</h2>
@@ -75,6 +49,6 @@ export default function Sidebar() {
                     <Card data={val} key={index} />
                 ))} */}
             </div>
-        </animated.div>
+        </div>
     )
 }
