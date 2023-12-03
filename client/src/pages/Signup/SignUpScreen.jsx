@@ -15,8 +15,8 @@ export default function SignupScreen() {
   return (
     <div className="authdiv">
       <p className="authtitle lg:text-[5rem] md:text-[4rem] text-[2.5rem]">SealDeal</p>
-      <p id="createacc" className="text-white">
-        Create an Account
+      <p id="createacc" className="text-black">
+        Sign Up
       </p>
       <form className="flex flex-col items-center justify-center">
         <input

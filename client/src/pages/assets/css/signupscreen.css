@@ -5,11 +5,6 @@
     align-items: center;
     justify-content: center;
 }
-.authtitle {
-    background: linear-gradient(to right, white, rgb(0, 255, 174));
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
 #createacc {
     font-size: 28px;
     font-weight: 500;
@@ -18,12 +13,12 @@
     margin-top: 1rem;
     padding-inline: 1rem;
     border-radius: 10px;
-    color: white;
+    color: black;
     font-size: 18px;
     padding-block: 0.5vh;
     width: 30vw;
     text-align: center;
 }
 .authdiv input::placeholder {
-    color: white;
+    color: black;
 }
