@@ -34,14 +34,7 @@ export default function Sidebar() {
     }
 
     return (
-<<<<<<< HEAD
-        <div className='sidebar'>
-            <div className='search'>
-                <input className='search__input' type='text' placeholder='Search'/>
-                <Search />
-                <Close />
-=======
-        <animated.div className="Sidebar w-[274px] relative h-screen" style={props}>
+        <animated.div className="Sidebar w-[274px] relative h-screen">
             <div className="Rectangle2" style={{width: 268, opacity: 0.60, background: 'white'}} />
             <div className="Frame20098" style={{width: 232, left: 21, top: 90, position: 'absolute', flexDirection: 'column',
                 justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'inline-flex', paddingBottom: '20px'
@@ -72,17 +65,16 @@ export default function Sidebar() {
                         ))}
                     </div>
                 </div>
->>>>>>> 3b57d42d1eb7e5b7eeb9b64894644e84a0e6272e
             </div>
             <div className='sidebar__results'>
                 <h2>Over 200 Results</h2>
                 <button>Suggest Deals</button>
             </div>
             <div>
-                {cards.map((val, index) => (
-                    <Card key={index} />
-                ))}
+                {/* {cards.map((val, index) => (
+                    <Card data={val} key={index} />
+                ))} */}
             </div>
-        </div>
+        </animated.div>
     )
 }
