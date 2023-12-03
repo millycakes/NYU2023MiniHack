@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 
 const openPageAndScroll = async (link) => {
     const browser = await puppeteer.launch({
-        // headless: true,
-        headless: false,
+        headless: true,
+        // headless: false,
         args: ['--no-sandbox'],
     });
 
@@ -32,7 +32,7 @@ const openPageAndScroll = async (link) => {
     await page.waitForSelector('#subscribe_modal_container #closeForm #closeid #icon-x');
     await page.click("#subscribe_modal_container #closeForm #closeid #icon-x");
 
-        await page.waitForSelector("#pull-deal-feed");
+    await page.waitForSelector("#pull-deal-feed");
 
     // for each querySelector("#pull-deal-feed .card-ui.cui-c-udc") in this div, return the data
     const dataholder = await page.evaluate(async (selector) => {
@@ -57,12 +57,14 @@ const openPageAndScroll = async (link) => {
             resolve(data); // Corrected: Resolve outside of the Promise constructor
         });
     }, "#pull-deal-feed");
-    console.log("dataholder: ", dataholder);
-    
+    // console.log("dataholder: ", dataholder);
+    return dataholder;
 }
 
 app.get('/', async (req, res) => {
-    const data = await openPageAndScroll("https://www.groupon.com/search?query=food");
+    // query sent into body
+    // const data = await openPageAndScroll("https://www.groupon.com/search?query=food");
+    const data = await openPageAndScroll(`https://www.groupon.com/search?query=${req.query.query}`);
     // send json back to frontend
     console.log("google data in ex: ", data);
     res.json(data);
