@@ -27,7 +27,7 @@ export default function Home() {
         key={mapKey}
         bootstrapURLKeys={{ key: "AIzaSyDSayFz8uAODQGq3iCj5z1YWU1WXI5ky8U" }}
         defaultCenter={{ lat: pos.latitude, lng: pos.longitude }}
-        defaultZoom={17}
+        defaultZoom={16}
       >
       </GoogleMapReact>
     </div>
