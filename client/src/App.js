@@ -27,7 +27,6 @@ export default function App() {
           }
         },
         register: async (email, password) => {
-          console.log("email: " + email + " password: " + password)
           try {
             await createUserWithEmailAndPassword(auth, email, password);
             toastSuccess("Registered!");
