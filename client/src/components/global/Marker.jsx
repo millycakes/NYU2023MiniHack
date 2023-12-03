@@ -5,9 +5,9 @@ function Marker() {
   return (
     <div className='marker'>
         <img src={marker}/>
-        <div className='marker__chip'>
+        {/* <div className='marker__chip'>
             <p className='bold'>20% off</p>
-        </div>
+        </div> */}
     </div>
   )
 }

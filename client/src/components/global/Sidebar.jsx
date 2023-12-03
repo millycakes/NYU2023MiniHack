@@ -36,7 +36,7 @@ export default function Sidebar() {
             </div>
             <div className='sidebar__results'>
                 <h2>Over 200 Results</h2>
-                <button>Suggest Deals</button>
+                <button><a target='_blank' href='https://forms.gle/7EJ2HfczCcWRgcEi6'>Suggest Deals</a></button>
             </div>
             <div className='categories'>
                 <div className='chip'>
