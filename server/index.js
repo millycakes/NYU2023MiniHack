@@ -51,6 +51,7 @@ const openPageAndScroll = async (link) => {
         return data;
     });
     console.log("dataholder: ", dataholder);
+    await browser.close();
     return dataholder;
 }
 
