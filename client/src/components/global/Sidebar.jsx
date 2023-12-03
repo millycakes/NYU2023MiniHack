@@ -25,11 +25,6 @@ export default function Sidebar() {
         setCards(data.filter((val) => val.title !== null));
     }
 
-    useEffect(() => {
-        getRestaurants()
-    }, [category]);
-    
-
     return (
         <div className="sidebar">
             <div className='search'>

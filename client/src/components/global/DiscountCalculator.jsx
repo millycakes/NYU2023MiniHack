@@ -5,6 +5,7 @@ import '../../assets/css/popup.css'
 import 'reactjs-popup/dist/index.css';
 
 export default function DiscountCalculator({ open, setOpen }) {
+    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://deals-finder.herokuapp.com' : 'http://localhost:3001';
   const closeModal = () => setOpen(false);
   const [originalprice, setOriginalPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -30,7 +31,7 @@ export default function DiscountCalculator({ open, setOpen }) {
                     reject('Please enter a valid price and discount');
                 } else {
                     // call calculate func
-                    let num = await calculate(originalprice, discount);
+                    let num = await fetch(baseUrl + '/calculate?totalnumber=' + originalprice + '&percentage=' + discount);
                     console.log(num);
                     setCalculated(num);
                     resolve();
