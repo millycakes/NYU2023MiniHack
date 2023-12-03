@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact from 'google-map-react';
 
+import Header from "../../components/global/Header";
+import Sidebar from "../../components/global/Sidebar";
+
 export default function Home() {
   const [pos, setPos] = useState({ latitude: 0, longitude: 0 });
   const [mapKey, setMapKey] = useState(0);
@@ -22,7 +25,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100vw', padding: 0 }}>
+      <Header />
+      <Sidebar />
       <GoogleMapReact
         key={mapKey}
         bootstrapURLKeys={{ key: "AIzaSyDSayFz8uAODQGq3iCj5z1YWU1WXI5ky8U" }}

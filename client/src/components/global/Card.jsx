@@ -9,8 +9,8 @@ function Card() {
             <h3 className='card__title'>Title</h3>
             <div className='card__metadata'>
                 <p>Company Name</p>
-                <div className='dot'></div>
-                <p>Category</p>
+                {/* <div className='dot'></div>
+                <p>Category</p> */}
             </div>
             <div className='card__date'>
                 <AccessAlarm />
