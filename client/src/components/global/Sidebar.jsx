@@ -45,9 +45,9 @@ export default function Sidebar() {
                 <button>Suggest Deals</button>
             </div>
             <div>
-                {cards.map((val, index) => (
-                    <Card key={index} />
-                ))}
+                {/* {cards.map((val, index) => (
+                    <Card data={val} key={index} />
+                ))} */}
             </div>
         </div>
     )
