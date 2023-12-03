@@ -18,9 +18,11 @@ export default function Sidebar() {
     async function getRestaurants() {
         const res = await fetch(`${baseUrl}?query=${searchquery}` + ' ' + category);
         const data = await res.json();
-        console.log("data:", data.filter((val) => Object.values(val).some((v) => v === null)));
+        // console.log("all data:", data);
+        // exclude where title's empty
+        console.log("data:", data.filter((val) => val.title !== null));
         // filter data that has any value of its keys as null
-        setCards(data.filter((val) => Object.values(val).some((v) => v === null)));
+        setCards(data.filter((val) => val.title !== null));
     }
 
     useEffect(() => {

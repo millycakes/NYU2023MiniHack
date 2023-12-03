@@ -28,6 +28,28 @@ export function toastError(message) {
     })
 }
 
+export async function toastPromise(promisefunc, loading) {
+    await toast.promise(
+      promisefunc,
+      {
+        loading: loading,
+        success: 'Done!',
+        error: (err) => `Something went wrong: ${err.toString()}`,
+      },
+      {
+        position: 'top-center',
+        style: {
+          background: '#61d345',
+          color: '#fff',
+        },
+        iconTheme: {
+          primary: '#fff',
+          secondary: '#61d345',
+        },
+      }
+    )
+  }
+
 export async function calculate(percentage, total_number) {
     const apidata = await fetch(`https://api.wolframalpha.com/v1/query?input=${percentage}%25%20of%20${total_number}&appid=${process.env.REACT_APP_WOLFRAM_ID}&format=plaintext&output=json`)
     const data = await apidata.json()
