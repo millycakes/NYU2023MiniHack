@@ -9,7 +9,7 @@ import '../../assets/css/Sidebar.css';
 
 export default function Sidebar() {
     const [searchquery, setSearchQuery] = useState('');
-    const [cards, setCards] = useState([1, 2, 3, 4, 5, 6, 7]);
+    const [cards, setCards] = useState([]);
     const location = useLocation(); // Get the current route location
     const navigate = useNavigate();
 
@@ -29,25 +29,39 @@ export default function Sidebar() {
     async function getRestaurants() {
         const res = await fetch(`${baseUrl}?query=${searchquery}`);
         const data = await res.json();
-        console.log(data);
-        setCards(data);
+        console.log("data:", data.filter((val) => Object.values(val).some((v) => v === null)));
+        // filter data that has any value of its keys as null
+        setCards(data.filter((val) => Object.values(val).some((v) => v === null)));
     }
 
     return (
-        <div className='sidebar'>
-            <div className='search'>
-                <input className='search__input' type='text' placeholder='Search'/>
-                <Search />
+        <div className="Frame20095 w-full sidebar" style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex'}}>
+            <div className='search flex flex-row' id='searchbar'>
+                <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="Search" />        
+                <button onClick={() => getRestaurants()} id="searchbutton">
+                    <Search />
+                </button>
                 <Close />
             </div>
-            <div className='sidebar__results'>
+            <div className='sidebar__results flex flex-row justify-between w-full'>
                 <h2>Over 200 Results</h2>
                 <button>Suggest Deals</button>
             </div>
+            <div id='categories'>
+                <button>Saved</button>
+                <button>FREE</button>
+                <button>Food</button>
+                <button>Events</button>
+                <button>Museums</button>
+            </div>
             <div>
-                {/* {cards.map((val, index) => (
-                    <Card data={val} key={index} />
-                ))} */}
+                {cards.length > 0 &&
+                    <div className='flex flex-col gap-x-2 items-center justify-center'>
+                        {cards.map((val, index) => (
+                            <Card data={val} key={index} />
+                        ))}
+                    </div>
+                }
             </div>
         </div>
     )

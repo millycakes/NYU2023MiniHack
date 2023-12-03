@@ -105,7 +105,8 @@ p{
   gap: 4px;
 }
 
-button{
+/* exclude button #searchbutton */
+button:not(#searchbutton){
   font-size: var(--body-large);
   font-weight: 800;
   padding: 8px;
