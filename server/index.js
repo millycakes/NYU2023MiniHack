@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 const openPageAndScroll = async (link) => {
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: "new",
         // headless: false,
         args: ['--no-sandbox'],
     });

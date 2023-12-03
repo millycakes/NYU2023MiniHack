@@ -46,17 +46,11 @@ export default function Routing() {
     <BrowserRouter>
       {user && <Sidebar />}
       <animated.div className={`${user && 'relative'} w-full pt-4`} style={props}>
-        {user ?
-            <Routes>
-                <Route exact path='/' element={<Home />} />
-                <Route path="/*" element={<Navigate to="/" />} />
-            </Routes>
-        :
-            <Routes>
-                <Route exact path='/' element={<SignupScreen />} />
-                <Route exact path='/signin' element={<LoginScreen />} />
-            </Routes>
-        }
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/signin' element={<LoginScreen />} />
+          {/* <Route exact path='/' element={<SignupScreen />} /> */}
+        </Routes>
       </animated.div>
     </BrowserRouter>
   );
