@@ -6,6 +6,8 @@ import { toastError, toastSuccess } from "./GlobalFunctions.js";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from './firebase';
 import Card from "./components/global/Card.jsx";
+import Sidebar from "./components/global/Sidebar.jsx";
+import Header from "./components/global/Header.jsx";
 
 export const AuthContext = createContext();
 
@@ -43,7 +45,7 @@ export default function App() {
         },
       }}
     >
-         <Card/>
+      <Header />
       <Routing />
       <Toaster />
     </AuthContext.Provider>

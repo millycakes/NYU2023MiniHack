@@ -12,6 +12,7 @@
   --gray--200: rgba(212, 212, 212, 1);
   --gray--300: rgba(144, 144, 144, 1);
   --gray--400: rgba(97, 97, 97, 1);
+  --yellow: rgba(255, 248, 211, 1);
 
   /* Text-size styles */
   /* base size: body-large-regular (16px) */
@@ -42,6 +43,10 @@ code {
 
 p{
   font-size: var(--body);
+}
+
+.body-large{
+  font-size: var(--body-large);
 }
 
 .dot{
@@ -90,4 +95,53 @@ p{
   flex-direction: row;
   align-items: center;
   gap: 4px;
+}
+
+button{
+  font-size: var(--body-large);
+  font-weight: 800;
+  padding: 8px;
+  background-color: var(--action);
+  color: var(--white);
+  border-radius: 8px;
+}
+
+.regular{
+  font-weight: 400;
+}
+
+.bold{
+  font-weight: 800;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 24px;
+}
+
+.header__left{
+  flex-grow: 1;
+}
+.header__profile{
+  width: 32px;
+  height: 32px;
+  background-color: var(--yellow);
+  text-align: center;
+  line-height: 32px;
+  border-radius: 100%;
+}
+
+.header__right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.divider{
+  height: 24px;
+  width: 1px;
+  background-color: var(--gray--200);
 }
