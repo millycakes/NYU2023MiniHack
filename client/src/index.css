@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
 :root {
   /* Color styles */
   --white: rgba(255, 255, 255, 1);
@@ -29,9 +31,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -119,6 +119,7 @@ button{
   flex-direction: row;
   align-items: center;
   padding: 12px 24px;
+  border-bottom: 1px solid var(--gray--200);
 }
 
 .header__left{
@@ -144,4 +145,18 @@ button{
   height: 24px;
   width: 1px;
   background-color: var(--gray--200);
+}
+
+.marker{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.marker__chip{
+  padding: 8px 12px;
+  border: 1px solid var(--gray--200);
+  border-radius: 32px;
+  box-shadow: var(--shadow);
 }
