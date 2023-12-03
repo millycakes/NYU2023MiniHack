@@ -1,16 +1,14 @@
 import React from 'react'
 import { AccessAlarm, FavoriteOutlined } from '@mui/icons-material'
 
-function Card() {
+function Card({ data }) {
   return (
     <div className='card'>
-        <img className='card__image'></img>
+        <img className='card__image' alt='card' src={data.image} />
         <div className='card__left'>
-            <h3 className='card__title'>Title</h3>
+            <h3 className='card__title'>GET {data.percentoff}</h3>
             <div className='card__metadata'>
-                <p>Company Name</p>
-                <div className='dot'></div>
-                <p>Category</p>
+                <p>{data.title}</p>
             </div>
             <div className='card__date'>
                 <AccessAlarm />

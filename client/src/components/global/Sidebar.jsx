@@ -61,7 +61,7 @@ export default function Sidebar() {
                     </div>
                     <div className='flex flex-col gap-x-2 items-center justify-center'>
                         {cards.map((val, index) => (
-                            <Card key={index} />
+                            <Card data={val} key={index} />
                         ))}
                     </div>
                 </div>

@@ -17,13 +17,10 @@ app.use((req, res, next) => {
 })
 
 const openPageAndScroll = async (link) => {
-    const browser = await puppeteer.launch({
-        headless: "new",
-        // headless: false,
-        args: ['--no-sandbox'],
-    });
+    const browser = await puppeteer.launch({ headless: false });
 
     const page = await browser.newPage();
+    console.log("link: ", link);
     await page.goto(link);
     await page.setViewport({
         width: 1200,
@@ -34,38 +31,31 @@ const openPageAndScroll = async (link) => {
 
     await page.waitForSelector("#pull-deal-feed");
 
-    // for each querySelector("#pull-deal-feed .card-ui.cui-c-udc") in this div, return the data
-    const dataholder = await page.evaluate(async (selector) => {
-        return new Promise(async (resolve) => {
-            const elements = document.querySelectorAll("#pull-deal-feed .card-ui.cui-c-udc");
-            console.log("elements: ", elements);
-            const data = [];
-            elements.forEach((element) => {
-                console.log("element: ", element);
-                const dataObject = {
-                    image: element.querySelector('.card-ui .cui-image').src,
-                    title: element.querySelector('.cui-udc-title').innerText,
-                    stars: element.querySelector('.numeric-count').innerText,
-                    originalprice: element.querySelector('.cui-price-original').innerText,
-                    discountprice: element.querySelector('.cui-price-discount').innerText,
-                    percentoff: element.querySelector('.cui-detail-badge').innerText,
-                }
-                console.log("dataObject: ", dataObject);
-                data.push(dataObject);
-            });
-            console.log("data: ", data);
-            resolve(data); // Corrected: Resolve outside of the Promise constructor
-        });
-    }, "#pull-deal-feed");
-    // console.log("dataholder: ", dataholder);
+    // Use the page.$$eval method to directly extract data from the page
+    const dataholder = await page.$$eval(".card-ui", elements => {
+        console.log("elements: ", elements);
+        let data = [];
+        for (const element of elements) {
+            const dataObject = {
+                image: element.querySelector('.card-ui .cui-image') ? element.querySelector('.card-ui .cui-image').src : null,
+                title: element.querySelector('.cui-udc-title') ? element.querySelector('.cui-udc-title').innerText : null,
+                stars: element.querySelector('.numeric-count') ? element.querySelector('.numeric-count').innerText : null,
+                originalprice: element.querySelector('.cui-price-original') ? element.querySelector('.cui-price-original').innerText : null,
+                discountprice: element.querySelector('.cui-price-discount') ? element.querySelector('.cui-price-discount').innerText : null,
+                percentoff: element.querySelector('.cui-detail-badge') ? element.querySelector('.cui-detail-badge').innerText : null,
+            }
+            console.log("dataObject: ", dataObject);
+            data.push(dataObject);
+        }
+        console.log("data: ", data);
+        return data;
+    });
+    console.log("dataholder: ", dataholder);
     return dataholder;
 }
 
 app.get('/', async (req, res) => {
-    // query sent into body
-    // const data = await openPageAndScroll("https://www.groupon.com/search?query=food");
     const data = await openPageAndScroll(`https://www.groupon.com/search?query=${req.query.query}`);
-    // send json back to frontend
     console.log("google data in ex: ", data);
     res.json(data);
 })
