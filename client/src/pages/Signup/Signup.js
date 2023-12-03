@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import FIREBASE_AUTH from '../../firebase';
+import { FIREBASE_AUTH } from '../../firebase.js';
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from 'firebase/auth';
+import React from  'react';
 
 export default function Signup () {
+    const email = React.useState("");
+    const password = React.useState("");
     const navigate = useNavigate();
     const signup = async (e)=>{
         e.preventDefault();
