@@ -26,13 +26,13 @@ export default function App() {
           }
         },
         register: async (email, password) => {
-          const res = await createUserWithEmailAndPassword(auth, email, password)
-          if (res.error) {
-            console.log(res)
-            toastError(res.error.message);
-            return false;
-          } else {
+          console.log("email: " + email + " password: " + password)
+          try {
+            await createUserWithEmailAndPassword(auth, email, password);
             toastSuccess("Registered!");
+          } catch (error) {
+            console.error(error);
+            toastError(error.message);
           }
         },
         logout: async () => {
