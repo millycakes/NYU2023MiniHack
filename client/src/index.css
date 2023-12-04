@@ -106,7 +106,7 @@ p{
 }
 
 /* exclude button #searchbutton */
-button:not(#searchbutton){
+button:not(#searchbutton, .chip){
   font-size: var(--body-large);
   font-weight: 800;
   padding: 8px;
@@ -234,4 +234,8 @@ button:not(#searchbutton){
   text-align: center;
   border: none;
   box-shadow: none;
+}
+
+.active{
+  background-color: var(--gray--100);
 }
