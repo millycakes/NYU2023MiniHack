@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+// const fetch = require('node-fetch');
 const express = require('express');
 
 const app = express();
@@ -77,14 +78,19 @@ const openPageAndScroll = async (link) => {
                 return data;
             });
             console.log("dataholder: ", dataholder);
-            // await browser.close();
+            await browser.close();
             return dataholder;
         }
     })
 }
 
+app.get('/calculate', async (req, res) => {
+    const data = await calculate(req.query.percentage, req.query.total_number);
+    console.log("data: ", data);
+    res.json(data);
+})
 
-export async function calculate(percentage, total_number) {
+async function calculate(percentage, total_number) {
     const apidata = await fetch(`https://api.wolframalpha.com/v1/query?input=${percentage}%25%20of%20${total_number}&appid=${process.env.REACT_APP_WOLFRAM_ID}&format=plaintext&output=json`)
     const data = await apidata.json()
     console.log(data)
@@ -98,7 +104,13 @@ export async function calculate(percentage, total_number) {
     return resultText;
 }
 
-export async function distance(value, miles=true) {
+app.get('/distance', async (req, res) => {
+    const data = await distance(req.query.value, req.query.miles);
+    console.log("data: ", data);
+    res.json(data);
+})
+
+async function distance(value, miles=true) {
     let fetchlink = '';
     if (miles) {
         fetchlink = `https://api.wolframalpha.com/v2/query?input=convert%20${value}%20miles%20to%20kilometers&format=plaintext&output=json&appid=${process.env.REACT_APP_WOLFRAM_ID}`
@@ -116,7 +128,13 @@ export async function distance(value, miles=true) {
     return resultText;
 }
 
-export async function conversion(value, dollars=true) {
+app.get('/conversion', async (req, res) => {
+    const data = await conversion(req.query.value, req.query.dollars);
+    console.log("data: ", data);
+    res.json(data);
+})
+
+async function conversion(value, dollars=true) {
     let fetchlink = '';
     if (dollars) {
         fetchlink = `https://api.wolframalpha.com/v2/query?input=convert%20${value}%20dollars%20to%20euros&format=plaintext&output=json&appid=${process.env.REACT_APP_WOLFRAM_ID}`
