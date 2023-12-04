@@ -27,21 +27,23 @@ export default function DiscountCalculator({ open, setOpen }) {
         </div>
         <button className=' mt-4' onClick={() =>
             toastPromise(new Promise(async (resolve, reject) => {
-                if (originalprice === 0 || discount === 0) {
-                    reject('Please enter a valid price and discount');
-                } else {
-                    // call calculate func
-                    let num = await fetch(baseUrl + '/calculate?totalnumber=' + originalprice + '&percentage=' + discount);
-                    console.log(num);
-                    setCalculated(num);
-                    resolve();
-                }
+                // if (originalprice === 0 || discount === 0) {
+                //     reject('Please enter a valid price and discount');
+                // } else {
+                //     // call calculate func
+                //     let num = await fetch(baseUrl + '/calculate?totalnumber=' + originalprice + '&percentage=' + discount);
+                //     console.log(num);
+                //     setCalculated(num);
+                //     resolve();
+                // }
+                setCalculated(50);
+                resolve();
             }), 'Discount calculated!')
         }>
             Calculate
         </button>
         {calculated && (
-            <p>You would save {calculated}%! 🥳</p>
+            <p>You would save ${originalprice * discount * .01}! 🥳</p>
         )}
       </Popup>
     </div>
