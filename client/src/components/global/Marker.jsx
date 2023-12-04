@@ -1,13 +1,13 @@
 import React from 'react'
 import marker from '../../assets/marker.svg'
 
-function Marker() {
+function Marker({text}) {
   return (
     <div className='marker'>
         <img src={marker}/>
-        {/* <div className='marker__chip'>
-            <p className='bold'>20% off</p>
-        </div> */}
+        <div className='marker__chip'>
+            <p className='bold'>{text} off</p>
+        </div>
     </div>
   )
 }
