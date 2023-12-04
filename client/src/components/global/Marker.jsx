@@ -6,7 +6,7 @@ function Marker({text}) {
     <div className='marker'>
         <img src={marker}/>
         <div className='marker__chip'>
-            <p className='bold'>{text} off</p>
+            <p className='marker__text bold'>{text} off</p>
         </div>
     </div>
   )

@@ -227,3 +227,11 @@ button:not(#searchbutton){
   gap: 12px;
   overflow-x: scroll;
 }
+
+.marker__text{
+  width: 60px;
+   background-color: var(--white);
+  text-align: center;
+  border: none;
+  box-shadow: none;
+}
