@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../App';
 import { Search, Close, Bookmark, Restaurant, Celebration, Museum } from '@mui/icons-material'
+import ContentLoader from "react-content-loader"
 // import Select from 'react-select'
 
 import Card from './Card';
@@ -63,13 +64,32 @@ export default function Sidebar() {
                     <p>Museum</p>
                 </button>
             </div>
-            <div>
-                {cards.length > 0 &&
+            <div className='flex flex-col items-center justify-center'>
+                {cards.length > 0 ?
                     <div>
                         {cards.map((val, index) => (
                             <Card data={val} key={index} />
                         ))}
                     </div>
+                :
+                    [0,1,2,3,4].map((val, index) => (
+                        <ContentLoader 
+                            speed={2}
+                            width={210}
+                            height={80}
+                            viewBox="0 0 210 80"
+                            backgroundColor="#f3f3f3"
+                            foregroundColor="#ecebeb"
+
+                        >
+                            <rect x="120" y="6" rx="3" ry="3" width="88" height="6" /> 
+                            <rect x="123" y="24" rx="3" ry="3" width="85" height="6" /> 
+                            <circle cx="280" cy="156" r="2" /> 
+                            <rect x="6" y="14" rx="0" ry="0" width="94" height="50" /> 
+                            <rect x="121" y="44" rx="3" ry="3" width="85" height="6" /> 
+                            <rect x="122" y="62" rx="3" ry="3" width="85" height="6" />
+                        </ContentLoader>
+                    ))
                 }
             </div>
         </div>

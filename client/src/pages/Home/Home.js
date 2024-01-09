@@ -20,7 +20,7 @@ export default function Home() {
 
   const onMapLoad = ( map, event ) => {
     mapRef.current = map.target;
-    console.log("map is: ", map.target)
+    // console.log("map is: ", map.target)
     setMapstats({bounds: map.target.getBounds(), zoom: map.target.getZoom()})
     setMapReady(true)
   }
@@ -44,7 +44,7 @@ export default function Home() {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           setPos({ latitude, longitude });
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
         },
       );
     } else {
@@ -93,7 +93,7 @@ export default function Home() {
         onViewportChange={setViewport}
         onLoad={onMapLoad}
         onMoveEnd={() => {
-          console.log("new zoom is: ", mapRef.current.getZoom())
+          // console.log("new zoom is: ", mapRef.current.getZoom())
           setMapstats({bounds: mapRef.current.getBounds(), zoom: mapRef.current.getZoom()})
         }}
         initialViewState={viewport}

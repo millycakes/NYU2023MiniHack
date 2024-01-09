@@ -175,6 +175,7 @@ button:not(#searchbutton, .chip){
   border: 1px solid var(--gray--200);
   border-radius: 32px;
   box-shadow: var(--shadow);
+  background-color: white;
 }
 
 .sidebar{
@@ -238,4 +239,8 @@ button:not(#searchbutton, .chip){
 
 .active{
   background-color: var(--gray--100);
+}
+.mapboxgl-ctrl-bottom-left {
+  z-index: -1;
+  position: relative;
 }

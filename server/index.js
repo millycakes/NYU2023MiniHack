@@ -19,11 +19,15 @@ app.use((req, res, next) => {
 
 const openPageAndScroll = async (link) => {
     return new Promise(async (resolve) => {
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: true });
 
         const page = await browser.newPage();
+        await page.setExtraHTTPHeaders({
+            "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8"
+        });
+        await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36");
         console.log("link: ", link);
-        await page.goto(link);
+        await page.goto(link, { waitUntil: 'networkidle0' });
         await page.setViewport({
             width: 1200,
             height: 800
