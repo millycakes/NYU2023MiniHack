@@ -11,7 +11,11 @@ export default function Home() {
   const [filteredplaces, setFilteredplaces] = useState([])
   const [mapstats, setMapstats] = useState({})
   const [mapReady, setMapReady] = useState(false)
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(() => {
+    const mode = JSON.parse(localStorage.getItem('mode'));
+    return typeof mode === 'boolean' ? mode : false;
+  });
   const [currentplace, setCurrentPlace] = useState(null);
   const [pos, setPos] = useState({ latitude: 40.729893, longitude: -73.998291 });
   const [viewport, setViewport] = useState({ latitude: 40.729893, longitude: -73.998291, zoom: 11 });
@@ -30,6 +34,7 @@ export default function Home() {
     console.log('This is ->', markerid)
     // inside the map instance you can call any google maps method
     // mapRef.current.setCenter({ lat, lng })
+    
     mapRef.current.easeTo({
       center: [lng, lat],
       duration: 2500,
@@ -39,6 +44,11 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const mode = JSON.parse(localStorage.getItem('mode'))
+    console.log("mode is: ", mode, typeof mode)
+    if (typeof mode === 'boolean') {
+      setChecked(mode)
+    }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -66,13 +76,19 @@ export default function Home() {
 
   const markers = useMemo(() => 
     cards.filter((place) => place.lat && place.lng)
-      .map((place) => ({ latitude: place.lat, longitude: place.lng, text: `${place.percentoff}%`, }))
-      .map((place1, index) => (
-        <Marker key={index} latitude={parseFloat(place1.latitude)} longitude={parseFloat(place1.longitude)}>
+      .map((place, index) => (
+        <Marker key={index} latitude={parseFloat(place.lat)} longitude={parseFloat(place.lng)} anchor="bottom">
           {/* when marker is clicked, scroll to it's match in sidebar */}
-          <OurMarker text={place1.text} clickfunc={() => onMarkerClick(place1.text, parseFloat(place1.latitude), parseFloat(place1.longitude))} />
+          <OurMarker text={place.percentoff} clickfunc={() => onMarkerClick(place.id, parseFloat(place.lat), parseFloat(place.lng))} />
         </Marker>
   )), [cards]);
+
+  useEffect(() => {
+    localStorage.setItem('mode', JSON.stringify(checked))
+    console.log("checked is: ", checked)
+    const mode = JSON.parse(localStorage.getItem('mode'))
+    console.log("mode is: ", mode)
+  }, [checked])
 
   return (
     <div style={{ height: '100vh', width: '100vw', padding: 0 }}>
@@ -108,7 +124,7 @@ export default function Home() {
           setMapstats({bounds: mapRef.current.getBounds(), zoom: mapRef.current.getZoom()})
         }}
         initialViewState={viewport}
-        style={{ width: '100vw', height: '100vh' }}
+        style={{ width: '60%', height: '100vh', position: 'absolute', right: 0 }}
         mapStyle={checked ? "mapbox://styles/mapbox/navigation-night-v1" : "mapbox://styles/mapbox/streets-v12"}
       >
         {markers}

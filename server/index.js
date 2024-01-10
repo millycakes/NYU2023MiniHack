@@ -34,7 +34,12 @@ const openPageAndScroll = async (link) => {
             width: 1200,
             height: 800
         });
-        await page.waitForSelector('#subscribe_modal_container #closeForm #closeid #icon-x');
+        try {
+            await page.waitForSelector('#subscribe_modal_container #closeForm #closeid #icon-x');
+        } catch (e) {
+            console.error('Error waiting for selector:', error);
+            return;
+        }
         await page.click("#subscribe_modal_container #closeForm #closeid #icon-x");
 
         await page.waitForSelector("#pull-deal-feed");
@@ -76,7 +81,11 @@ const openPageAndScroll = async (link) => {
                         originalprice: element.querySelector('.cui-price-original') ? element.querySelector('.cui-price-original').innerText : null,
                         discountprice: element.querySelector('.cui-price-discount') ? element.querySelector('.cui-price-discount').innerText : null,
                         percentoff: element.querySelector('.cui-detail-badge') ? element.querySelector('.cui-detail-badge').innerText : null,
-                        location: element.querySelector('.cui-location-name') ? element.querySelector('.cui-location-name').innerText : null,
+                        // remove periods (.) from the location name
+                        location: element.querySelector('.cui-location-name') ? element.querySelector('.cui-location-name').innerText.replace(/\./g, '') : null,
+                        link: element.querySelector('.cui-content>a') ? element.querySelector('.cui-content>a').href : null,
+                        // if link is 'https://www.groupon.com/deals/king-spa-sauna-6', id will be 'king-spa-sauna-6'
+                        id: element.querySelector('.cui-content>a') ? element.querySelector('.cui-content>a').href.split('/').slice(-1)[0] : null,
                     }
                     console.log("dataObject: ", dataObject);
                     data.push(dataObject);
@@ -85,18 +94,34 @@ const openPageAndScroll = async (link) => {
                 return data;
             });
             console.log("dataholder: ", dataholder);
-            console.log("key: ", process.env.GOOGLE_MAPS_KEY)
+            
+            const firebase = await import('./firebase.js');
+            const placesRef = firebase.db.collection('places');
+            // get "coordlist" document in "places" collection
+            const doc = await placesRef.doc('coordlist').get();
+
             const client = new Client();
 
             dataholder = await Promise.all(dataholder.map(async (item) => {
                 if (item.location) {
-                    try {
-                        const gcResponse = await client.geocode({ params: { key: process.env.GOOGLE_MAPS_KEY, address: item.location }});
-                        item.lat = gcResponse.data.results[0].geometry.location.lat;
-                        item.lng = gcResponse.data.results[0].geometry.location.lng;
+                    // check if location is in "coordlist" document in "places" collection
+                    const docdata = doc.data();
+                    if (docdata[item.location]) {
+                        // console.log("location in coordlist: ", item.location, "lat: ", docdata[item.location].lat, "lng: ", docdata[item.location].lng)
+                        item.lat = docdata[item.location].lat;
+                        item.lng = docdata[item.location].lng;
                         return item;
-                    } catch (e) {
-                        console.log(e);
+                    } else {
+                        try {
+                            const gcResponse = await client.geocode({ params: { key: process.env.GOOGLE_MAPS_KEY, address: item.location }});
+                            item.lat = gcResponse.data.results[0].geometry.location.lat;
+                            item.lng = gcResponse.data.results[0].geometry.location.lng;
+                            // add location to "coordlist" document in "places" collection
+                            await placesRef.doc('coordlist').update({ [item.location]: { lat: item.lat, lng: item.lng }});
+                            return item;
+                        } catch (e) {
+                            console.log(e);
+                        }
                     }
                 } else {
                     return item;

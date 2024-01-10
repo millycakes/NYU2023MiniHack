@@ -1,31 +1,32 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useRef, createRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../App';
 import { Search, Close, Bookmark, Restaurant, Celebration, Museum } from '@mui/icons-material'
 import ContentLoader from "react-content-loader"
-// import Select from 'react-select'
-
 import Card from './Card';
-import '../../assets/css/Sidebar.css';
 import { toastPromise } from '../../GlobalFunctions';
+import '../../assets/css/sidebar.css';
 
-export default function Sidebar({ cards, setCards }) {
+
+export default function Sidebar({ cards, setCards, focused }) {
     const [searchquery, setSearchQuery] = useState('');
-    const location = useLocation(); // Get the current route location
-    const navigate = useNavigate();
     const [category, setCategory] = useState('');
 
     const baseUrl = process.env.NODE_ENV === 'production' ? 'https://deals-finder.herokuapp.com' : 'http://localhost:3001';
 
-    async function getRestaurants() {
-        const res = await fetch(`${baseUrl}?query=${searchquery + " " + category}`);
-        const data = await res.json();
-        // console.log("all data:", data);
-        // exclude where title's empty and if percentoff is ""
-        console.log("data:", data.filter((val) => val.title !== null && val.percentoff !== "" && val.percentoff !== null));
-        // filter data that has any value of its keys as null
-        setCards(data.filter((val) => val.title !== null && val.percentoff !== "" && val.percentoff !== null));
-    }
+    useEffect(() => {
+        console.log("focused:", focused);
+        const focusedCard = document.getElementById(focused);
+        console.log("focusedCard:", focusedCard);
+        focusedCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        if (focusedCard) {
+            focusedCard.classList.add('flash');
+            // setTimeout(() => {
+            //     focusedCard.classList.remove('flash');
+            // }, 2000);
+        }
+    }, [focused]);
 
     useEffect(() => {
         async function loadRest() {
@@ -33,9 +34,20 @@ export default function Sidebar({ cards, setCards }) {
         }
         loadRest();
     }, []);
+
+    async function getRestaurants() {
+        const res = await fetch(`${baseUrl}?query=${searchquery + " " + category}`);
+        const data = await res.json();
+        // console.log("all data:", data);
+        // exclude where title's empty and if percentoff is ""
+        let filtereddata = data.filter((val) => val.title !== null && val.percentoff !== "" && val.percentoff !== null);
+        console.log("data:", filtereddata);
+        // filter data that has any value of its keys as null
+        setCards(filtereddata);
+    }
     
     return (
-        <div className="sidebar">
+        <div className="sidebar w-2/5">
             <div className='search'>
                 <input placeholder='Search' value={searchquery} onChange={(e) => setSearchQuery(e.target.value)} className="search__input" />        
                 <button onClick={() => 
