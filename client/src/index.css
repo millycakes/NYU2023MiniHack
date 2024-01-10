@@ -34,6 +34,8 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 code {
@@ -230,7 +232,6 @@ button:not(#searchbutton, .chip){
 }
 
 .marker__text{
-  width: 60px;
    background-color: var(--white);
   text-align: center;
   border: none;

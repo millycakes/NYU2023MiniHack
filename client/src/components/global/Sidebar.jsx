@@ -9,9 +9,8 @@ import Card from './Card';
 import '../../assets/css/Sidebar.css';
 import { toastPromise } from '../../GlobalFunctions';
 
-export default function Sidebar() {
+export default function Sidebar({ cards, setCards }) {
     const [searchquery, setSearchQuery] = useState('');
-    const [cards, setCards] = useState([]);
     const location = useLocation(); // Get the current route location
     const navigate = useNavigate();
     const [category, setCategory] = useState('');
@@ -27,6 +26,13 @@ export default function Sidebar() {
         // filter data that has any value of its keys as null
         setCards(data.filter((val) => val.title !== null && val.percentoff !== "" && val.percentoff !== null));
     }
+
+    useEffect(() => {
+        async function loadRest() {
+            await getRestaurants();
+        }
+        loadRest();
+    }, []);
     
     return (
         <div className="sidebar">

@@ -15,6 +15,7 @@ export default function Home() {
   const [currentplace, setCurrentPlace] = useState(null);
   const [pos, setPos] = useState({ latitude: 40.729893, longitude: -73.998291 });
   const [viewport, setViewport] = useState({ latitude: 40.729893, longitude: -73.998291, zoom: 11 });
+  const [cards, setCards] = useState([]);
 
   const mapRef = useRef();
 
@@ -51,22 +52,32 @@ export default function Home() {
       console.error("Geolocation is not supported by this browser.");
     }
   }, []);
+  
+  useEffect(() => {
+    // whenever map is changed, check to see if the latitude and longitude of each place is within the bounds of the map, display if it is
+    if (mapReady) {
+      const placesWithinBounds = cards.filter(place => typeof place.lat === 'number' && typeof place.lng === 'number' &&
+        mapstats.bounds.contains([parseFloat(place.lng), parseFloat(place.lat)])
+      )
+      // console.log("places within bounds are: ", placesWithinBounds)
+      setFilteredplaces(placesWithinBounds)
+    }
+  }, [mapReady, mapstats, cards])
 
-  const markers = useMemo(() => [
-    { latitude: 40.729893, longitude: -73.998291, text: "20%", },
-    { latitude: 40.72962729885485, longitude: -73.99936141218122, text: "45%", },
-    { latitude: 40.72944704674394, longitude: -73.9983276230342, text: "15%", },
-    { latitude: 40.730293, longitude: -73.992619, text: "10%", },
-  ].map((place, index) => (
-    <Marker key={index} latitude={parseFloat(place.latitude)} longitude={parseFloat(place.longitude)}>
-      <OurMarker text={place.text} clickfunc={() => onMarkerClick(place.text, parseFloat(place.latitude), parseFloat(place.longitude))} />
-    </Marker>
-  )), [checked, filteredplaces]);
+  const markers = useMemo(() => 
+    cards.filter((place) => place.lat && place.lng)
+      .map((place) => ({ latitude: place.lat, longitude: place.lng, text: `${place.percentoff}%`, }))
+      .map((place1, index) => (
+        <Marker key={index} latitude={parseFloat(place1.latitude)} longitude={parseFloat(place1.longitude)}>
+          {/* when marker is clicked, scroll to it's match in sidebar */}
+          <OurMarker text={place1.text} clickfunc={() => onMarkerClick(place1.text, parseFloat(place1.latitude), parseFloat(place1.longitude))} />
+        </Marker>
+  )), [cards]);
 
   return (
     <div style={{ height: '100vh', width: '100vw', padding: 0 }}>
       <Header />
-      <Sidebar />
+      <Sidebar cards={cards} setCards={setCards} focused={currentplace} />
       <div id="switchparent" className='absolute top-20 z-50'>
         <ReactSwitch
           checked={checked}

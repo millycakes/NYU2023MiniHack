@@ -45,7 +45,7 @@ export default function Routing() {
   return (
     <BrowserRouter>
       {user && <Sidebar />}
-      <animated.div className={`${user && 'relative'} w-full pt-4`} style={props}>
+      <animated.div className={`${user && 'relative'} pt-4`} style={props}>
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/signin' element={<LoginScreen />} />

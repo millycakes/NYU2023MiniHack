@@ -1,15 +1,13 @@
 import React from 'react'
 import marker from '../../assets/marker.svg'
 
-function OurMarker({text}) {
+export default function OurMarker({text, clickfunc}) {
   return (
-    <div className='marker'>
-        <img src={marker}/>
+    <div className='marker' onClick={() => clickfunc()}>
         <div className='marker__chip'>
-          <p className='marker__text bold'>{text} off</p>
+          <p className='marker__text bold'>{text}</p>
         </div>
+        <img src={marker}/>
     </div>
   )
 }
-
-export default OurMarker;

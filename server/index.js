@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
 // const fetch = require('node-fetch');
 const express = require('express');
+const { Client } = require("@googlemaps/google-maps-services-js");
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
@@ -19,7 +21,7 @@ app.use((req, res, next) => {
 
 const openPageAndScroll = async (link) => {
     return new Promise(async (resolve) => {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: "new" });
 
         const page = await browser.newPage();
         await page.setExtraHTTPHeaders({
@@ -64,7 +66,7 @@ const openPageAndScroll = async (link) => {
 
         async function getAllData() {
             // Use the page.$$eval method to directly extract data from the page
-            const dataholder = await page.$$eval(".card-ui", elements => {
+            let dataholder = await page.$$eval(".card-ui", elements => {
                 console.log("elements: ", elements);
                 let data = [];
                 for (const element of elements) {
@@ -74,6 +76,7 @@ const openPageAndScroll = async (link) => {
                         originalprice: element.querySelector('.cui-price-original') ? element.querySelector('.cui-price-original').innerText : null,
                         discountprice: element.querySelector('.cui-price-discount') ? element.querySelector('.cui-price-discount').innerText : null,
                         percentoff: element.querySelector('.cui-detail-badge') ? element.querySelector('.cui-detail-badge').innerText : null,
+                        location: element.querySelector('.cui-location-name') ? element.querySelector('.cui-location-name').innerText : null,
                     }
                     console.log("dataObject: ", dataObject);
                     data.push(dataObject);
@@ -82,6 +85,24 @@ const openPageAndScroll = async (link) => {
                 return data;
             });
             console.log("dataholder: ", dataholder);
+            console.log("key: ", process.env.GOOGLE_MAPS_KEY)
+            const client = new Client();
+
+            dataholder = await Promise.all(dataholder.map(async (item) => {
+                if (item.location) {
+                    try {
+                        const gcResponse = await client.geocode({ params: { key: process.env.GOOGLE_MAPS_KEY, address: item.location }});
+                        item.lat = gcResponse.data.results[0].geometry.location.lat;
+                        item.lng = gcResponse.data.results[0].geometry.location.lng;
+                        return item;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                } else {
+                    return item;
+                }
+            }));
+
             await browser.close();
             return dataholder;
         }
